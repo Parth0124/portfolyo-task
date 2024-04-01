@@ -65,9 +65,6 @@ justify-content: space-evenly;
     font-weight:300;
 
 }
-
-
-
 `
 
 const Intro = () => {
