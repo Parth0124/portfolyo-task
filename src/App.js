@@ -7,7 +7,7 @@ import GlobalStyle from "./globalStyles";
 //Components
 import Main from "./components/Main";
 import AboutPage from "./components/AboutPage";
-import TestimonialPage from "./components/TestimonialPage";
+import BlogPage from "./components/BlogPage.jsx";
 import WorkPage from "./components/WorkPage";
 import MySkillsPage from "./components/MySkillsPage";
 
@@ -31,7 +31,7 @@ function App() {
 
             <Route path="/about" element={<AboutPage />} />
 
-            <Route path="/Testimonial" element={<TestimonialPage />} />
+            <Route path="/Blog" element={<BlogPage />} />
 
             <Route path="/work" element={<WorkPage />} />
 
