@@ -48,6 +48,7 @@ text-decoration: none;
 z-index:1;
 `
 
+
 const BottomBar = styled.div`
 position: absolute;
 bottom: 1rem;
@@ -64,6 +65,7 @@ color: ${props => props.click ? props.theme.body : props.theme.text};
 text-decoration: none;
 z-index:1;
 `
+
 const SKILLS = styled(NavLink)`
 color: ${props => props.theme.text};
 text-decoration: none;
