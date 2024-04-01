@@ -3,61 +3,49 @@
 export const Work = [
     {
         id:1,
-        name:"Agency Landing Page",
-        description:"It is build on top of the React JS, with styledComponents and GSAP for smooth scrolling animations.",
-        tags:["react","gsap","styledComponents"],
+        name:"House Marketplace",
+        description:"A small house selling or renting platform made with ReactJS, Bootstrap and Firebase.",
+        tags:["ReactJS","Bootstrap","Firebase"],
         
-        demo:"https://agency-website-eta.vercel.app/",
-        github:"https://github.com/codebucks27/Agency-website"
+        demo:"https://house-marketplace-delta-ruby.vercel.app/",
+        github:"https://github.com/Parth0124/house-marketplace"
     },
     {
         id:2,
-        name:"Job listing website",
-        description:"A Job listing website build in ReactJS. With searching and filtering functionalities.",
-        tags:["react","sass"],
+        name:"Github Finder",
+        description:"A web app to search github users built using ReactJS, TailwindCSS, DaisyUI and Postman",
+        tags:["ReactJS","TailwindCSS","DaisyUI","Postman"],
         
-        demo:"http://react-job-listing-website.codebucks27.vercel.app/",
-        github:"https://github.com/codebucks27/react-job-listing-website"
+        demo:"https://github-finder-cyan-tau-70.vercel.app/",
+        github:"https://github.com/Parth0124/github-finder"
         
     },
     {
         id:3,
-        name:"Dev.to Clone",
-        description:"A clone of Dev.to build using ReactJS. With realtime fetching of articles from dev.to using API.",
-        tags:["react","api","sass"],
+        name:"Feedback-App",
+        description:"Feedback app built using ReactJS.",
+        tags:["ReactJS"],
         
-        demo:"http://devto-clone-codebucks27.vercel.app/",
-        github:"https://github.com/codebucks27/devto-clone"
+        demo:"https://cerulean-mousse-ad147a.netlify.app/",
+        github:"https://github.com/Parth0124/feedback-app"
     },
     {
         id:4,
-        name:"Sidebar Menu",
-        description:"A cool looking sidebar menu build using ReactJS and styledComponents.It has really smooth animations.",
-        tags:["react","styledComponents","react-router"],
+        name:"TaskFlow",
+        description:"Effortlessly manage tasks with our React-based To-Do List app. Set dynamic priorities, track completion, and utilize the real-time date display.",
+        tags:["ReactJS"],
         
-        demo:"https://react-sidebar.vercel.app/",
-        github:"https://github.com/codebucks27/react-sidebar"
+        demo:"https://taskflow-three.vercel.app/",
+        github:"https://github.com/Parth0124/Taskflow"
        
     },{
         id:5,
-        name:"Todo App(React + Redux)",
-        description:"A todo app build using Redux-toolkit and framer-motion for smooth animations.",
-        tags:["react","redux","framer-motion"],
+        name:"Google Keeper Clone",
+        description:"Keeper is a React.js app inspired by Google Keep 2019, enabling users to create, manage, and organize notes with an intuitive Material-UI interface.",
+        tags:["ReactJS"],
         
-        demo:"http://react-redux-todo-app-git-main-codebucks27.vercel.app/",
-        github:"https://github.com/codebucks27/React-Redux-Todo-App"
+        demo:"https://keeperapp-tan.vercel.app/",
+        github:"https://github.com/Parth0124/keeperapp"
         
-    },
-    {
-        id:6,
-        name:"Responsive Navigation Menu",
-        description:"A reponsive navbar menu component in ReactJS with react-router functionalities. Built from scratch.",
-        tags:["react","react-router","css"],
-        
-        demo:"http://react-responsive-navbar-codebucks27.vercel.app/",
-        github:"https://github.com/codebucks27/React-responsive-navbar"
-        
-    },
-    
-  
+    }  
 ] 
