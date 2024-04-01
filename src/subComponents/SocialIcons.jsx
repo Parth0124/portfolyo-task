@@ -37,6 +37,7 @@ const SocialIcons = (props) => {
         transition={{ type: "spring", duration: 1, delay: 1 }}
       >
         <a
+          rel="noreferrer"
           style={{ color: "inherit" }}
           target="_blank"
           href={"https://github.com/codebucks27"}
@@ -54,6 +55,7 @@ const SocialIcons = (props) => {
         transition={{ type: "spring", duration: 1, delay: 1.2 }}
       >
         <a
+          rel="noreferrer"
           style={{ color: "inherit" }}
           target="_blank"
           href={"https://twitter.com/code_bucks"}
@@ -71,6 +73,7 @@ const SocialIcons = (props) => {
         transition={{ type: "spring", duration: 1, delay: 1.4 }}
       >
         <a
+          rel="noreferrer"
           style={{ color: "inherit" }}
           target="_blank"
           href={"https://facebook.com/codebucks27"}
@@ -88,6 +91,7 @@ const SocialIcons = (props) => {
         transition={{ type: "spring", duration: 1, delay: 1.6 }}
       >
         <a
+          rel="noreferrer"
           style={{ color: "inherit" }}
           target="_blank"
           href={"https://youtube.com"}
