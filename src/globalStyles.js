@@ -21,6 +21,10 @@ body{
     font-family: 'Source Sans Pro',sans-serif;
 }
 
+pic{
+    padding-left: 70% 
+}
+
 `
 
 export default GlobalStyle;

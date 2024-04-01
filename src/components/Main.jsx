@@ -157,7 +157,7 @@ const Main = () => {
             Say hi..
           </motion.h2>
         </Contact>
-        <WORK to="/work" className={click ? "click" : ""}>
+        <WORK to="/work" click={click ? 1 : 0}>
           <motion.h2
             initial={{
               y: -200,
@@ -177,7 +177,7 @@ const Main = () => {
           <ABOUT to="/about" click={click ? 1 : 0}>
             <motion.h2
               initial={{
-                y: 200,
+                y: -200,
                 transition: { type: "spring", duration: 1.5, delay: 1 },
               }}
               animate={{
