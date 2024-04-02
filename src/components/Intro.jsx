@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import Me from "../assets/Images/profile-img.jpeg";
 
 const Box = styled(motion.div)`
   position: absolute;
@@ -42,8 +41,9 @@ const SubBox = styled.div`
     bottom: 0;
     left: 50%;
     transform: translate(-50%, 0%);
-    width: 100%;
-    height: auto;
+    width: 100%; /* Adjusted width */
+    height: 100%; /* Adjusted height */
+    object-fit: cover; /* Ensures the image covers the entire container */
   }
 `;
 
@@ -65,6 +65,41 @@ const Text = styled.div`
 `;
 
 const Intro = () => {
+  const [aboutData, setAboutData] = useState({
+    name: "",
+    title: "",
+    subtitle: "",
+    avatar: ""
+  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchAboutData = async () => {
+      try {
+        const response = await fetch(
+          "https://portfolio-backend-30mp.onrender.com/api/v1/get/user/65b3a22c01d900e96c4219ae"
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        setAboutData({
+          name: data.user.about.name,
+          title: data.user.about.title,
+          subtitle: data.user.about.subTitle,
+          avatar: data.user.about.avatar.url
+        });
+        setLoading(false);
+      } catch (error) {
+        setError(error);
+        setLoading(false);
+      }
+    };
+
+    fetchAboutData();
+  }, []);
+
   return (
     <Box
       initial={{ height: 0 }}
@@ -73,9 +108,16 @@ const Intro = () => {
     >
       <SubBox>
         <Text>
+          {loading && (
+            <div className="w-full text-center mt-8">Loading about data...</div>
+          )}
+          {error && (
+            <div className="w-full text-center mt-8">Error: {error.message}</div>
+          )}
           <h1>Hi,</h1>
-          <h3>I'm Parth.</h3>
-          <h6>I design and develop websites.</h6>
+          <h3>I'm {aboutData.name}.</h3>
+          <h6>{aboutData.title}.</h6>
+          <h6>{aboutData.subtitle}.</h6>
         </Text>
       </SubBox>
       <SubBox>
@@ -84,7 +126,7 @@ const Intro = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 2 }}
         >
-          <img className="pic" src={Me} alt="Profile Pic" />
+          <img className="pic" src={aboutData.avatar} alt="Profile Pic" />
         </motion.div>
       </SubBox>
     </Box>
@@ -92,3 +134,4 @@ const Intro = () => {
 };
 
 export default Intro;
+

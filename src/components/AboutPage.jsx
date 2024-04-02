@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled, { keyframes, ThemeProvider } from "styled-components";
 import { DarkTheme } from "./Themes";
 
@@ -55,6 +55,41 @@ const Main = styled.div`
 `;
 
 const AboutPage = () => {
+  const [aboutData, setAboutData] = useState({
+    description: '',
+    expYear: '',
+    address: '',
+    phoneNumber: '',
+    contactEmail: ''
+  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchAboutData = async () => {
+      try {
+        const response = await fetch('https://portfolio-backend-30mp.onrender.com/api/v1/get/user/65b3a22c01d900e96c4219ae');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setAboutData({
+          description: data.user.about.description,
+          expYear: data.user.about.exp_year,
+          address: data.user.about.address,
+          phoneNumber: data.user.about.phoneNumber,
+          contactEmail: data.user.about.contactEmail
+        });
+        setLoading(false);
+      } catch (error) {
+        setError(error);
+        setLoading(false);
+      }
+    };
+
+    fetchAboutData();
+  }, []);
+
   return (
     <ThemeProvider theme={DarkTheme}>
       <Box>
@@ -67,14 +102,21 @@ const AboutPage = () => {
           <img src={astronaut} alt="spaceman" />
         </Spaceman>
         <Main>
-          I'm a front-end developer located in India. I love to create simple
-          yet beautiful websites with great user experience.
-          <br /> <br />
-          I'm interested in the whole frontend stack Like trying new things and
-          building great projects. I'm an independent freelancer and blogger. I
-          love to write blogs and read books.
-          <br /> <br />I believe everything is an Art when you put your
-          consciousness in it. You can connect with me via social links.
+        {loading && (
+        <div className="w-full text-center mt-8">Loading about data...</div>
+      )}
+      {error && (
+        <div className="w-full text-center mt-8">Error: {error.message}</div>
+      )}
+      {!loading && !error && (
+        <div className="max-w-6xl mx-auto mt-8">
+          <p className="text-lg">{aboutData.description}</p>
+          <p className="text-gray-500">Experience: {aboutData.expYear} years</p>
+          <p className="text-gray-500">Address: {aboutData.address}</p>
+          <p className="text-gray-500">Phone: {aboutData.phoneNumber}</p>
+          <p className="text-gray-500">Email: {aboutData.contactEmail}</p>
+        </div>
+      )}
         </Main>
 
         <BigTitle text="ABOUT" top="10%" left="5%" />

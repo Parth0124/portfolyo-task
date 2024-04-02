@@ -23,6 +23,7 @@ body{
 
 pic{
     padding-left: 70% 
+    max-height: 100%
 }
 
 `
