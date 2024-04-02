@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { lightTheme } from "./Themes";
-import { Design, Develope } from "./AllSvgs";
+import { motion } from "framer-motion";
 
 import LogoComponent from "../subComponents/LogoComponent";
 import SocialIcons from "../subComponents/SocialIcons";
@@ -9,63 +9,34 @@ import PowerButton from "../subComponents/PowerButton";
 import ParticlesComponent from "../subComponents/ParticleComponent";
 import BigTitle from "../subComponents/BigTitlte";
 
-const Box = styled.div`
+const Wrapper = styled.div`
   background-color: ${(props) => props.theme.body};
-  width: 100vw;
   height: 100vh;
-  position: relative;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-`;
-
-const Main = styled.div`
-  border: 2px solid ${(props) => props.theme.text};
-  color: ${(props) => props.theme.text};
-  background-color: ${(props) => props.theme.body};
-  padding: 2rem;
-  width: 30vw;
-  height: 60vh;
-  z-index: 3;
-  line-height: 1.5;
-  cursor: pointer;
-
-  font-family: "Ubuntu Mono", monospace;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  &:hover {
-    color: ${(props) => props.theme.body};
-    background-color: ${(props) => props.theme.text};
-  }
-`;
-
-const Title = styled.h2`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: calc(1em + 1vw);
+`;
 
-  ${Main}:hover & {
-    & > * {
-      fill: ${(props) => props.theme.body};
-    }
-  }
+const MainContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+`;
 
-  & > *:first-child {
-    margin-right: 1rem;
-  }
+const Main = styled.div`
+  color: ${(props) => props.theme.text};
+  background-color: ${(props) => props.theme.body};
+  padding: 2rem;
+  height: 60vh;
+  line-height: 1.5;
+  cursor: pointer;
+  flex-basis: 45%;
 `;
 
 const Description = styled.div`
   color: ${(props) => props.theme.text};
   font-size: calc(0.6em + 1vw);
   padding: 0.5rem 0;
-
-  ${Main}:hover & {
-    color: ${(props) => props.theme.body};
-  }
 
   strong {
     margin-bottom: 1rem;
@@ -77,60 +48,77 @@ const Description = styled.div`
   }
 `;
 
+const ProgressBar = styled.div`
+  width: 100%;
+  height: 2rem;
+  background: #f3f3f3;
+  border-radius: 5px;
+  overflow: hidden;
+`;
+
+const FilledBar = styled(motion.span)`
+  height: 100%;
+  display: block;
+  background: linear-gradient(to right, #000, #fff);
+`;
+
+const SkillItem = ({ skill }) => {
+  return (
+    <div className="overflow-x-hidden">
+      <p className="text-sm uppercase font-medium">{skill.name}</p>
+      <ProgressBar>
+        <FilledBar
+          initial={{ width: 0 }}
+          animate={{ width: `${skill.percentage}%` }}
+          transition={{ duration: 1 }}
+        />
+      </ProgressBar>
+    </div>
+  );
+};
+
 const MySkillsPage = () => {
+  const [skillsData, setSkillsData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchSkillsData = async () => {
+      try {
+        const response = await fetch('https://portfolio-backend-30mp.onrender.com/api/v1/get/user/65b3a22c01d900e96c4219ae');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setSkillsData(data.user.skills);
+        setLoading(false);
+      } catch (error) {
+        setError(error);
+        setLoading(false);
+      }
+    };
+
+    fetchSkillsData();
+  }, []);
+
   return (
     <ThemeProvider theme={lightTheme}>
-      <Box>
+      <Wrapper>
         <LogoComponent theme="light" />
         <SocialIcons theme="light" />
         <PowerButton />
         <ParticlesComponent theme="light" />
-        <Main>
-          <Title>
-            <Design width={40} height={40} /> Development
-          </Title>
-          <Description>
-            <strong>I like to Design and Develop</strong>
-            <ul>
-              <li>HTML</li>
-              <li>CSS</li>
-              <li>Javascript</li>
-              <li>ReactJS</li>
-              <li>Bootstrap</li>
-              <li>Tailwind</li>
-              <li>NodeJS</li>
-              <li>ExpressJS</li>
-              <li>jQuery</li>
-            </ul>
-          </Description>
-        </Main>
-        <Main>
-          <Title>
-            <Develope width={40} height={40} /> Database
-          </Title>
-
-          <Description>
-            <strong>Working with data is a skill and I love it</strong>
-            <ul>
-              <li>MongoDB</li>
-              <li>MySQL</li>
-              <li>Postgre's SQL</li>
-              <li>Firebase</li>
-            </ul>
-          </Description>
-
-          <Description>
-            <strong>Tools</strong>
-            <ul>
-              <li>Postman</li>
-              <li>Github</li>
-              <li>Figma</li>
-            </ul>
-          </Description>
-        </Main>
-
+        <MainContainer>
+          {skillsData.map((skill, index) => (
+            <Main key={index}>
+              <Description>
+                <SkillItem skill={skill} />
+              </Description>
+            </Main>
+          ))}
+        </MainContainer>
         <BigTitle text="SKILLS" top="80%" right="30%" />
-      </Box>
+      </Wrapper>
     </ThemeProvider>
   );
 };
