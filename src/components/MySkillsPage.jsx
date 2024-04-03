@@ -1,137 +1,75 @@
-import React, { useEffect, useState } from "react";
-import styled, { ThemeProvider } from "styled-components";
-import { lightTheme } from "./Themes";
+/* eslint-disable react/display-name */
+/* eslint-disable react/prop-types */
+
+import { forwardRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import AOS from 'aos';
+import 'aos/dist/aos.css'; 
 
-import LogoComponent from "../subComponents/LogoComponent";
-import SocialIcons from "../subComponents/SocialIcons";
-import PowerButton from "../subComponents/PowerButton";
-import ParticlesComponent from "../subComponents/ParticleComponent";
-import BigTitle from "../subComponents/BigTitlte";
+const MySkillsPage = forwardRef((props, ref) => {
+    const [info, setInfo] = useState([]);
 
-const Wrapper = styled.div`
-  background-color: ${(props) => props.theme.body};
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+    useEffect(() => {
+        // Fetch data from the API
+        fetch('https://portfolio-backend-30mp.onrender.com/api/v1/get/user/65b3a22c01d900e96c4219ae')
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.success) {
+                    setInfo(data.user.skills);
+                    AOS.init();
+                }
+            })
+            .catch(error => console.error(error));
+    }, []);
 
-const MainContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-`;
+    const SkillItem = ({ skill }) => {
+        const [isHovered, setIsHovered] = useState(false);
 
-const Main = styled.div`
-  color: ${(props) => props.theme.text};
-  background-color: ${(props) => props.theme.body};
-  padding: 2rem;
-  height: 60vh;
-  line-height: 1.5;
-  cursor: pointer;
-  width: 100%
-`;
-
-const Description = styled.div`
-  color: ${(props) => props.theme.text};
-  font-size: calc(0.6em + 1vw);
-  padding: 0.5rem 0;
-
-  strong {
-    margin-bottom: 1rem;
-    text-transform: uppercase;
-  }
-  ul,
-  p {
-    margin-left: 2rem;
-  }
-`;
-
-const ProgressBar = styled.div`
-  width: 100%;
-  height: 2rem;
-  background: #f3f3f3;
-  border-radius: 5px;
-  overflow: hidden;
-`;
-
-const FilledBar = styled(motion.span)`
-  height: 100%;
-  display: block;
-  background: linear-gradient(to right, #000, #fff);
-`;
-
-const SkillItem = ({ skill }) => {
-  return (
-    <div className="overflow-x-hidden">
-      <p className="text-sm uppercase font-medium">{skill.name}</p>
-      <ProgressBar>
-        <FilledBar
-          initial={{ width: 0 }}
-          animate={{ width: `${skill.percentage}%` }}
-          transition={{ duration: 1 }}
-        />
-      </ProgressBar>
-    </div>
-  );
-};
-
-const MySkillsPage = () => {
-  const [skillsData, setSkillsData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchSkillsData = async () => {
-      try {
-        const response = await fetch(
-          "https://portfolio-backend-30mp.onrender.com/api/v1/get/user/65b3a22c01d900e96c4219ae"
+        return (
+            <motion.div
+                className="relative flex flex-col items-center mt-4 shadow-md mx-2"
+                style={{
+                    padding: "10px",
+                    backgroundColor: "#F2F2F2",
+                    borderRadius: "8px",
+                }}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+            >
+                <img src={skill.image.url} className="rounded-sm w-20 px-4 mt-4" alt={`skill ${skill.name}`} />
+                <p className="text-xl font-bold p-6">{skill.name}</p>
+                <div className="bg-[#ADCDCE] h-8 w-full rounded-sm ">
+                    <motion.div
+                        className="bg-[#31363F] h-full "
+                        style={{ width: isHovered ? `${skill.percentage}%` : '0%' }}
+                        initial={{ width: 0 }}
+                        animate={{ width: isHovered ? `${skill.percentage}%` : '0%' }}
+                        transition={{ duration: 1 }}
+                    >
+                        {isHovered && <span className="absolute left-0 bottom-0 ml-5 mb-5 font-semibold text-[#F2F2F2]">{skill.percentage}%</span>}
+                    </motion.div>
+                </div>
+            </motion.div>
         );
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
-        setSkillsData(data.user.skills);
-        setLoading(false);
-      } catch (error) {
-        setError(error);
-        setLoading(false);
-      }
     };
-
-    fetchSkillsData();
-  }, []);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
-
-  return (
-    <ThemeProvider theme={lightTheme}>
-      <Wrapper>
-        <LogoComponent theme="light" />
-        <SocialIcons theme="light" />
-        <PowerButton />
-        <ParticlesComponent theme="light" />
-        <MainContainer>
-          {skillsData.map((skill, index) => (
-            <Main key={index}>
-              <Description>
-                <SkillItem skill={skill} />
-              </Description>
-            </Main>
-          ))}
-        </MainContainer>
-        <BigTitle text="SKILLS" top="80%" right="30%" />
-      </Wrapper>
-    </ThemeProvider>
-  );
-};
-
+    
+    return (
+        <div ref={ref} className="flex flex-col justify-center items-center bg-[#76ABAE] pt-6 pb-16">
+            <div className="">
+                <div className="flex justify-center relative z-10 " style={{opacity:0.7}}>
+                    <div className=" px-7 py-6 inline-block bg-[#F2F2F2] relative bottom-16" >
+                        <h1 className="text-center font-bold  text-3xl text-[##76ABAE] ">SKILLS</h1>
+                    </div>
+                </div>
+                <div data-aos="fade-down" className="grid lg:grid-cols-5 grid-cols-2 gap-8 justify-center relative">
+                    {info &&
+                        info.slice().reverse().map((skill, index) => (
+                            <SkillItem  key={index} skill={skill} />
+                        ))}
+                </div>
+            </div>
+        </div>
+    );
+});
 
 export default MySkillsPage;
