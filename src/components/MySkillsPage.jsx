@@ -5,9 +5,11 @@ import { forwardRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import AOS from 'aos';
 import 'aos/dist/aos.css'; 
+import PowerButton from "../subComponents/PowerButton";
 
 const MySkillsPage = forwardRef((props, ref) => {
     const [info, setInfo] = useState([]);
+    const [showPowerButton, setShowPowerButton] = useState(true);
 
     useEffect(() => {
         // Fetch data from the API
@@ -20,6 +22,18 @@ const MySkillsPage = forwardRef((props, ref) => {
                 }
             })
             .catch(error => console.error(error));
+
+        // Event listener to track scroll position
+        const handleScroll = () => {
+            const currentPosition = window.scrollY;
+            setShowPowerButton(currentPosition === 0);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
     }, []);
 
     const SkillItem = ({ skill }) => {
@@ -54,19 +68,15 @@ const MySkillsPage = forwardRef((props, ref) => {
     };
     
     return (
-        <div ref={ref} className="flex flex-col justify-center items-center bg-[#76ABAE] pt-6 pb-16">
-            <div className="">
-                <div className="flex justify-center relative z-10 " style={{opacity:0.7}}>
-                    <div className=" px-7 py-6 inline-block bg-[#F2F2F2] relative bottom-16" >
-                        <h1 className="text-center font-bold  text-3xl text-[##76ABAE] ">SKILLS</h1>
-                    </div>
-                </div>
-                <div data-aos="fade-down" className="grid lg:grid-cols-5 grid-cols-2 gap-8 justify-center relative">
-                    {info &&
-                        info.slice().reverse().map((skill, index) => (
-                            <SkillItem  key={index} skill={skill} />
-                        ))}
-                </div>
+        <div ref={ref} className="flex flex-col justify-center items-center bg-[#000000] pt-16 pb-16">
+            <div className="right-0 p-3 m-2">
+                {showPowerButton && <PowerButton />}
+            </div>
+            <div data-aos="fade-down" className="grid lg:grid-cols-5 grid-cols-2 gap-8 justify-center relative">
+                {info &&
+                    info.slice().reverse().map((skill, index) => (
+                        <SkillItem key={index} skill={skill} />
+                    ))}
             </div>
         </div>
     );
