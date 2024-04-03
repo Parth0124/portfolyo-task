@@ -26,6 +26,16 @@ pic{
     max-height: 100%
 }
 
+img_container div {
+    position: unset !important;
+  }
+
+img {
+    width: 100% !important;
+    position: relative !important;
+    height: unset !important;
+  }
+
 `
 
 export default GlobalStyle;

@@ -85,9 +85,11 @@ const MySkillsPage = () => {
   useEffect(() => {
     const fetchSkillsData = async () => {
       try {
-        const response = await fetch('https://portfolio-backend-30mp.onrender.com/api/v1/get/user/65b3a22c01d900e96c4219ae');
+        const response = await fetch(
+          "https://portfolio-backend-30mp.onrender.com/api/v1/get/user/65b3a22c01d900e96c4219ae"
+        );
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         const data = await response.json();
         setSkillsData(data.user.skills);
@@ -101,15 +103,13 @@ const MySkillsPage = () => {
     fetchSkillsData();
   }, []);
 
-  // Divide the skillsData array into chunks of 8 items each
-  const chunkedSkillsData = skillsData.reduce((acc, _, index) => {
-    const chunkIndex = Math.floor(index / 8);
-    if (!acc[chunkIndex]) {
-      acc[chunkIndex] = [];
-    }
-    acc[chunkIndex].push(skillsData[index]);
-    return acc;
-  }, []);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <ThemeProvider theme={lightTheme}>
@@ -119,17 +119,12 @@ const MySkillsPage = () => {
         <PowerButton />
         <ParticlesComponent theme="light" />
         <MainContainer>
-          {/* Map over each chunk of skills and render them within their own row */}
-          {chunkedSkillsData.map((chunk, rowIndex) => (
-            <Row key={rowIndex}>
-              {chunk.map((skill, index) => (
-                <Main key={index}>
-                  <Description>
-                    <SkillItem skill={skill} />
-                  </Description>
-                </Main>
-              ))}
-            </Row>
+          {skillsData.map((skill, index) => (
+            <Main key={index}>
+              <Description>
+                <SkillItem skill={skill} />
+              </Description>
+            </Main>
           ))}
         </MainContainer>
         <BigTitle text="SKILLS" top="80%" right="30%" />
@@ -138,11 +133,5 @@ const MySkillsPage = () => {
   );
 };
 
-const Row = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin-bottom: 2rem;
-`;
 
 export default MySkillsPage;
