@@ -20,7 +20,7 @@ const Wrapper = styled.div`
 const MainContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 60%;
+  width: 100%;
 `;
 
 const Main = styled.div`
@@ -30,7 +30,7 @@ const Main = styled.div`
   height: 60vh;
   line-height: 1.5;
   cursor: pointer;
-  flex-basis: 45%;
+  width: 100%
 `;
 
 const Description = styled.div`
@@ -101,6 +101,16 @@ const MySkillsPage = () => {
     fetchSkillsData();
   }, []);
 
+  // Divide the skillsData array into chunks of 8 items each
+  const chunkedSkillsData = skillsData.reduce((acc, _, index) => {
+    const chunkIndex = Math.floor(index / 8);
+    if (!acc[chunkIndex]) {
+      acc[chunkIndex] = [];
+    }
+    acc[chunkIndex].push(skillsData[index]);
+    return acc;
+  }, []);
+
   return (
     <ThemeProvider theme={lightTheme}>
       <Wrapper>
@@ -109,12 +119,17 @@ const MySkillsPage = () => {
         <PowerButton />
         <ParticlesComponent theme="light" />
         <MainContainer>
-          {skillsData.map((skill, index) => (
-            <Main key={index}>
-              <Description>
-                <SkillItem skill={skill} />
-              </Description>
-            </Main>
+          {/* Map over each chunk of skills and render them within their own row */}
+          {chunkedSkillsData.map((chunk, rowIndex) => (
+            <Row key={rowIndex}>
+              {chunk.map((skill, index) => (
+                <Main key={index}>
+                  <Description>
+                    <SkillItem skill={skill} />
+                  </Description>
+                </Main>
+              ))}
+            </Row>
           ))}
         </MainContainer>
         <BigTitle text="SKILLS" top="80%" right="30%" />
@@ -122,5 +137,12 @@ const MySkillsPage = () => {
     </ThemeProvider>
   );
 };
+
+const Row = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 2rem;
+`;
 
 export default MySkillsPage;
