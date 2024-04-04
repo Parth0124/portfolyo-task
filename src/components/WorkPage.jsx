@@ -18,13 +18,15 @@ const Box = styled.div`
 `;
 
 const Main = styled(motion.ul)`
-  position: fixed;
+  position: absolute;
   top: 12rem;
   left: calc(10rem + 15vw);
   display: flex;
   flex-direction: column;
-  gap: 2rem; // Add gap between ProjectCard components
+  gap: 2rem;
   color: white;
+  overflow-y: auto;
+  max-height: calc(100vh - 12rem - 4rem); /* Adjusted height */
 `;
 
 const Rotate = styled.span`
