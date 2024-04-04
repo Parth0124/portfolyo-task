@@ -21,9 +21,9 @@ const Main = styled(motion.ul)`
   position: fixed;
   top: 12rem;
   left: calc(10rem + 15vw);
-  height: 40vh;
   display: flex;
-  flex-direction: column; // Change to column
+  flex-direction: column;
+  gap: 2rem; // Add gap between ProjectCard components
   color: white;
 `;
 
