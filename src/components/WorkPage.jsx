@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { motion } from "framer-motion";
 import LogoComponent from "../subComponents/LogoComponent";
@@ -11,23 +11,22 @@ import { DarkTheme } from "./Themes";
 
 const Box = styled.div`
   background-color: ${(props) => props.theme.body};
-  /* Removed fixed height and added min-height */
-  min-height: 100vh;
+  min-height: 100vh; /* Ensure the Box fills at least the entire viewport height */
   position: relative;
   display: flex;
-  align-items: center;
+  flex-direction: column; /* Allow content to flow vertically */
+  align-items: center; /* Center the content horizontally */
+  overflow-y: auto; /* Enable vertical scrolling when content overflows */
 `;
 
 const Main = styled(motion.ul)`
-  position: absolute;
+  position: fixed;
   top: 12rem;
   left: calc(10rem + 15vw);
+  
   display: flex;
-  flex-direction: column;
-  gap: 2rem;
+
   color: white;
-  overflow-y: auto;
-  max-height: calc(100vh - 12rem - 4rem); /* Adjusted height */
 `;
 
 const Rotate = styled.span`
@@ -40,17 +39,32 @@ const Rotate = styled.span`
   z-index: 1;
 `;
 
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.5,
+      duration: 0.5,
+    },
+  },
+};
+
 const WorkPage = () => {
   const [projectData, setProjectData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const ref = useRef(null);
+  const yinyang = useRef(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('https://portfolio-backend-30mp.onrender.com/api/v1/get/user/65b3a22c01d900e96c4219ae');
+        const response = await fetch(
+          "https://portfolio-backend-30mp.onrender.com/api/v1/get/user/65b3a22c01d900e96c4219ae"
+        );
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         const data = await response.json();
         setProjectData(data.user.projects);
@@ -62,6 +76,35 @@ const WorkPage = () => {
     };
 
     fetchData();
+
+    const rotate = () => {
+      if (ref.current && yinyang.current) {
+        ref.current.style.transform = `translateX(${-window.pageYOffset}px)`;
+        yinyang.current.style.transform = `rotate(${window.pageYOffset}deg)`;
+      }
+    };
+
+    window.addEventListener("scroll", rotate);
+
+    return () => {
+      window.removeEventListener("scroll", rotate);
+    };
+  }, []);
+
+  useEffect(() => {
+    let element = ref.current;
+
+    const rotate = () => {
+      element.style.transform = `translateX(${-window.pageYOffset}px)`;
+
+      return (yinyang.current.style.transform =
+        "rotate(" + -window.pageYOffset + "deg)");
+    };
+
+    window.addEventListener("scroll", rotate);
+    return () => {
+      window.removeEventListener("scroll", rotate);
+    };
   }, []);
 
   return (
@@ -71,7 +114,7 @@ const WorkPage = () => {
         <SocialIcons theme="dark" />
         <PowerButton />
 
-        <Main>
+        <Main ref={ref} variants={container} initial="hidden" animate="show">
           {loading && (
             <div className="text-center mt-8">Loading projects...</div>
           )}
@@ -97,7 +140,7 @@ const WorkPage = () => {
           )}
         </Main>
 
-        <Rotate>
+        <Rotate ref={yinyang}>
           <YinYang width={80} height={80} fill={DarkTheme.text} />
         </Rotate>
 
