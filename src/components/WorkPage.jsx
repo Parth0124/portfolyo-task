@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { motion } from "framer-motion";
+import { ScrollTrigger } from "gsap/ScrollTrigger"; // Import ScrollTrigger from gsap
+import { gsap } from "gsap"; // Import gsap
 import LogoComponent from "../subComponents/LogoComponent";
 import SocialIcons from "../subComponents/SocialIcons";
 import PowerButton from "../subComponents/PowerButton";
@@ -11,12 +13,12 @@ import { DarkTheme } from "./Themes";
 
 const Box = styled.div`
   background-color: ${(props) => props.theme.body};
-  min-height: 100vh; /* Ensure the Box fills at least the entire viewport height */
+  min-height: 100vh;
   position: relative;
   display: flex;
-  flex-direction: column; /* Allow content to flow vertically */
-  align-items: center; /* Center the content horizontally */
-  overflow-y: auto; /* Enable vertical scrolling when content overflows */
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto; /* Ensure vertical scrolling */
 `;
 
 const Main = styled(motion.ul)`
@@ -25,7 +27,6 @@ const Main = styled(motion.ul)`
   left: calc(10rem + 15vw);
   height: 40vh;
   display: flex;
-
   color: white;
 `;
 
@@ -39,16 +40,8 @@ const Rotate = styled.span`
   z-index: 1;
 `;
 
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.5,
-      duration: 0.5,
-    },
-  },
-};
+// Initialize ScrollTrigger
+gsap.registerPlugin(ScrollTrigger);
 
 const WorkPage = () => {
   const [projectData, setProjectData] = useState([]);
@@ -106,6 +99,23 @@ const WorkPage = () => {
       window.removeEventListener("scroll", rotate);
     };
   }, []);
+
+  useEffect(() => {
+    const element = ref.current;
+  
+    // ScrollTrigger setup
+    if (element) {
+      ScrollTrigger.create({
+        trigger: element,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: true, // Enable scrubbing
+      });
+    }
+  }, []);
+
+  // Define empty object for variants
+  const container = {};
 
   return (
     <ThemeProvider theme={DarkTheme}>
