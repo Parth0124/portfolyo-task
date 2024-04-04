@@ -44,32 +44,28 @@ const WorkPage = () => {
     const fetchData = async () => {
       // Here, I've directly used the provided dataset instead of fetching from the API
       const data = {
-        "success": true,
-        "user": {
+        success: true,
+        user: {
           // ... (other user data)
-          "projects": [
+          projects: [
             {
-              "liveurl": "#",
-              "githuburl": "#",
-              "title": "Project 14",
-              "sequence": 14,
-              "image": {
-                "public_id": "1706285511679-xe7r9t",
-                "url": "https://portfolio-image-store.s3.ap-south-1.amazonaws.com/1706285511679-xe7r9t"
+              liveurl: "#",
+              githuburl: "#",
+              title: "Project 14",
+              sequence: 14,
+              image: {
+                public_id: "1706285511679-xe7r9t",
+                url: "https://portfolio-image-store.s3.ap-south-1.amazonaws.com/1706285511679-xe7r9t",
               },
-              "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
-              "techStack": [
-                "Reactjs ",
-                " Nextjs ",
-                " Mern ",
-                " CSS"
-              ],
-              "_id": "65b3d9c8d017f6b49c778ca7",
-              "enabled": true
+              description:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
+              techStack: ["Reactjs ", " Nextjs ", " Mern ", " CSS"],
+              _id: "65b3d9c8d017f6b49c778ca7",
+              enabled: true,
             },
             // ... (other projects)
-          ]
-        }
+          ],
+        },
       };
 
       setProjectData(data.user.projects);
@@ -86,19 +82,21 @@ const WorkPage = () => {
         <PowerButton />
 
         <Main>
-          {projectData.map((project) => (
-            <ProjectCard
-              key={project._id}
-              name={project.title}
-              img={project.image.url}
-              tech={project.techStack}
-              detail={project.description}
-              liveUrl={project.liveurl}
-              github={project.githuburl}
-              enabled={project.enabled}
-              sequence={project.sequence}
-            />
-          ))}
+          <div className="fixed top-32 left-1/4 flex flex-col gap-8">
+            {projectData.map((project) => (
+              <ProjectCard
+                key={project._id}
+                name={project.title}
+                img={project.image.url}
+                tech={project.techStack}
+                detail={project.description}
+                liveUrl={project.liveurl}
+                github={project.githuburl}
+                enabled={project.enabled}
+                sequence={project.sequence}
+              />
+            ))}
+          </div>
         </Main>
 
         <Rotate>

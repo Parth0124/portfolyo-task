@@ -4,39 +4,27 @@ import { FaGlobe } from "react-icons/fa";
 
 const ProjectCard = ({ name, img, tech, detail, liveUrl, github, enabled, sequence }) => {
   return (
-    <div className="w-full p-4 xl:px-12 h-auto xl:py-10 rounded-lg shadow-shadowOne flex flex-col bg-gradient-to-r from-bodyColor to-[#202327] group hover:bg-gradient-to-b hover:from-gray-900 hover:gray-900 transition-colors duration-1000">
-      <div className="w-full h-[80%] overflow-hidden rounded-lg">
-        <img
-          className="w-full h-50 object-cover group-hover:scale-110 duration-300 cursor-pointer"
-          src={img}
-          alt={name}
-        />
+    <div className="flex gap-8 bg-gray-800 p-4 rounded-md">
+      <div className="w-1/3">
+        <img src={img} alt={name} className="w-full h-auto rounded-md" />
       </div>
-      <div className="w-full mt-5 flex flex-col gap-6">
-        <div>
-          <div className="flex items-center justify-between">
-            <h3 className="text-base uppercase text-designColor font-normal">
-              {name}
-            </h3>
-            <div className="flex gap-2">
-              <span className="text-lg w-10 h-10 rounded-full bg-black inline-flex justify-center items-center text-gray-400 hover:text-designColor duration-300 cursor-pointer">
-                <a href={github} target="_blank" rel="noopener noreferrer"><BsGithub /></a>
-              </span>
-              <span className="text-lg w-10 h-10 rounded-full bg-black inline-flex justify-center items-center text-gray-400 hover:text-designColor duration-300 cursor-pointer">
-                <a href={liveUrl} target="_blank" rel="noopener noreferrer"><FaGlobe /></a>
-              </span>
-            </div>
-          </div>
-          <div className="flex flex-wrap gap-2 my-3">
-            {tech.map((tech, index) => (
-              <h3 key={index} className="text-xs bg-gray-700 px-2 py-1 rounded-md">
-                {tech}
-              </h3>
-            ))}
-          </div>
-          <p className="text-sm tracking-wide mt-3 hover:text-gray-100 duration-300">
-            {detail}
-          </p>
+      <div className="w-2/3">
+        <h3 className="text-xl font-bold mb-2">{name}</h3>
+        <div className="flex flex-wrap gap-2 mb-4">
+          {tech.map((t, index) => (
+            <span key={index} className="bg-gray-700 text-white px-2 py-1 rounded-md">
+              {t}
+            </span>
+          ))}
+        </div>
+        <p className="mb-4">{detail}</p>
+        <div className="flex gap-4">
+          <a href={github} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gray-200">
+            <BsGithub size={24} />
+          </a>
+          <a href={liveUrl} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gray-200">
+            <FaGlobe size={24} />
+          </a>
         </div>
       </div>
     </div>
