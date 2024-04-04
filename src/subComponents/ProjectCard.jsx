@@ -4,7 +4,7 @@ import { FaGlobe } from "react-icons/fa";
 
 const ProjectCard = ({ name, img, tech, detail, liveUrl, github, enabled, sequence }) => {
   return (
-    <div className="flex gap-8 bg-gray-800 p-4 rounded-md">
+    <div className="flex gap-8 bg-gray-800 p-4 rounded-md ">
       <div className="w-1/3">
         <img src={img} alt={name} className="w-full h-auto rounded-md" />
       </div>
