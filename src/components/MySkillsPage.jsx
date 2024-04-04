@@ -72,7 +72,7 @@ const MySkillsPage = forwardRef((props, ref) => {
   };
 
   return (
-    <div ref={ref} className="flex flex-col justify-center items-center bg-[#000000] pt-16 pb-16">
+    <div ref={ref} className="flex flex-col justify-center items-center bg-[#000000] pt-16 pb-16" style={{ borderTop: '17px solid transparent' }}>
       <div className="right-0 p-3 m-2">
         {showPowerButton && <PowerButton />}
       </div>
@@ -83,7 +83,7 @@ const MySkillsPage = forwardRef((props, ref) => {
           ))}
       </div>
     </div>
-  );
+  );  
 });
 
 export default MySkillsPage;
