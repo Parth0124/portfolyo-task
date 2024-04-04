@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { motion } from "framer-motion";
-
 import LogoComponent from "../subComponents/LogoComponent";
 import SocialIcons from "../subComponents/SocialIcons";
 import PowerButton from "../subComponents/PowerButton";
 import BigTitlte from "../subComponents/BigTitlte";
-import ProjectCard from "../subComponents/ProjectCard"; // Import ProjectCard component
+import ProjectCard from "../subComponents/ProjectCard";
 import { YinYang } from "./AllSvgs";
 import { DarkTheme } from "./Themes";
 
@@ -38,19 +37,41 @@ const Rotate = styled.span`
 `;
 
 const WorkPage = () => {
-  const [projectData, setProjectData] = useState(null);
+  const [projectData, setProjectData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await fetch(
-          "https://portfolio-backend-30mp.onrender.com/api/v1/get/user/65b3a22c01d900e96c4219ae" // Adjust the API endpoint to fetch project data
-        );
-        const data = await response.json();
-        setProjectData(data.projects); // Assuming the projects data is stored under 'projects' in the response
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+      // Here, I've directly used the provided dataset instead of fetching from the API
+      const data = {
+        "success": true,
+        "user": {
+          // ... (other user data)
+          "projects": [
+            {
+              "liveurl": "#",
+              "githuburl": "#",
+              "title": "Project 14",
+              "sequence": 14,
+              "image": {
+                "public_id": "1706285511679-xe7r9t",
+                "url": "https://portfolio-image-store.s3.ap-south-1.amazonaws.com/1706285511679-xe7r9t"
+              },
+              "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
+              "techStack": [
+                "Reactjs ",
+                " Nextjs ",
+                " Mern ",
+                " CSS"
+              ],
+              "_id": "65b3d9c8d017f6b49c778ca7",
+              "enabled": true
+            },
+            // ... (other projects)
+          ]
+        }
+      };
+
+      setProjectData(data.user.projects);
     };
 
     fetchData();
@@ -64,20 +85,19 @@ const WorkPage = () => {
         <PowerButton />
 
         <Main>
-          {projectData &&
-            projectData.map((project) => (
-              <ProjectCard
-                key={project.public_id}
-                name={project.name}
-                img={project.img}
-                tech={project.tech}
-                detail={project.detail}
-                liveUrl={project.liveUrl}
-                github={project.github}
-                enabled={project.enabled}
-                sequence={project.sequence}
-              />
-            ))}
+          {projectData.map((project) => (
+            <ProjectCard
+              key={project._id}
+              name={project.title}
+              img={project.image.url}
+              tech={project.techStack}
+              detail={project.description}
+              liveUrl={project.liveurl}
+              github={project.githuburl}
+              enabled={project.enabled}
+              sequence={project.sequence}
+            />
+          ))}
         </Main>
 
         <Rotate>
